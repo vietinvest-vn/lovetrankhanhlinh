@@ -1,0 +1,256 @@
+/* =====================================================
+   1. THIẾT LẬP CHUNG
+   Bạn có thể đổi màu nền và màu chữ tại :root.
+   ===================================================== */
+:root {
+    --nen-toi: #180d1c;
+    --nen-phu: #241329;
+    --hong-chinh: #ff6fae;
+    --hong-nhat: #ffc0dc;
+    --chu-chinh: #fff1f7;
+    --chu-mo: #bd9caf;
+    --xanh-chu-thich: #8bd5ad;
+    --vang-chuoi: #ffe29a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: var(--nen-toi);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--chu-chinh);
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    background:
+        radial-gradient(ellipse at 75% 20%, rgba(116, 37, 91, .28), transparent 42%),
+        radial-gradient(ellipse at 15% 85%, rgba(94, 34, 82, .2), transparent 40%),
+        var(--nen-toi);
+}
+
+.trang-chinh {
+    width: min(1200px, 100%);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 34px 28px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =====================================================
+   2. TIÊU ĐỀ TRANG
+   ===================================================== */
+.dau-trang {
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.nhan-nho {
+    margin: 0 0 9px;
+    color: var(--hong-chinh);
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.dau-trang h1 {
+    margin: 0;
+    color: var(--chu-chinh);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 4vw, 42px);
+    font-weight: 400;
+}
+
+.dau-trang h1 span,
+.chan-trang span {
+    color: var(--hong-chinh);
+}
+
+/* =====================================================
+   3. BỐ CỤC HAI CỘT
+   Cột trái là đoạn mã; cột phải là trái tim hoa.
+   ===================================================== */
+.noi-dung {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 26px;
+    flex: 1;
+}
+
+.khung-ma {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 143, 192, .22);
+    border-radius: 13px;
+    background: rgba(25, 15, 29, .88);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, .22), 0 0 25px rgba(255, 81, 151, .06);
+}
+
+.thanh-cua-so {
+    height: 38px;
+    padding: 0 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255, 143, 192, .13);
+    background: rgba(255, 255, 255, .025);
+}
+
+.thanh-cua-so span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff7294;
+}
+
+.thanh-cua-so span:nth-child(2) { background: #ffd078; }
+.thanh-cua-so span:nth-child(3) { background: #83d6a5; }
+
+.thanh-cua-so p {
+    margin: 0 0 0 8px;
+    color: var(--chu-mo);
+    font-size: 11px;
+}
+
+.ma-tinh-yeu {
+    min-height: 440px;
+    padding: 20px 18px 24px;
+    color: #f8eaf1;
+    font-size: clamp(10px, 1.08vw, 13px);
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.dong-ma {
+    min-height: 1.9em;
+    white-space: pre-wrap;
+}
+
+.binh-luan { color: var(--xanh-chu-thich); }
+.tu-khoa { color: #ff8fc1; font-weight: bold; }
+.chuoi { color: var(--vang-chuoi); }
+.dong-thut-vao { padding-left: 26px; }
+
+/* Con trỏ nhấp nháy trong lúc chữ đang chạy */
+.con-tro::after {
+    content: "▋";
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--hong-chinh);
+    animation: nhapNhay .8s steps(2, start) infinite;
+}
+
+@keyframes nhapNhay {
+    to { visibility: hidden; }
+}
+
+/* =====================================================
+   4. KHU VỰC TRÁI TIM VÀ LỜI NHẮN
+   Canvas phủ kín khung; lời nhắn nằm phía trên Canvas.
+   ===================================================== */
+.khung-trai-tim {
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    height: 520px;
+}
+
+#garden {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.heart-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(80%, 320px);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.thong-diep,
+.loi-yeu {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.thong-diep.hien,
+.loi-yeu.hien {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.thong-diep p {
+    margin: 0 0 12px;
+    color: #fff4fa;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(16px, 2vw, 22px);
+}
+
+.dong-ho {
+    color: #ffd0e4;
+    font-size: clamp(12px, 1.5vw, 17px);
+    line-height: 1.9;
+    font-weight: bold;
+}
+
+.loi-yeu {
+    margin-top: 24px;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(17px, 2.1vw, 24px);
+}
+
+.chu-ky {
+    margin-top: 10px;
+    color: var(--hong-nhat);
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.chan-trang {
+    padding-top: 18px;
+    color: var(--chu-mo);
+    font-size: 11px;
+    text-align: center;
+}
+
+/* =====================================================
+   5. GIAO DIỆN ĐIỆN THOẠI / MÀN HÌNH NHỎ
+   ===================================================== */
+@media (max-width: 800px) {
+    .trang-chinh { padding: 25px 15px 18px; }
+
+    .noi-dung {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .ma-tinh-yeu {
+        min-height: 0;
+        padding: 16px 13px 20px;
+        font-size: 11px;
+    }
+
+    .khung-trai-tim { height: min(112vw, 470px); }
+    .dau-trang { margin-bottom: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
